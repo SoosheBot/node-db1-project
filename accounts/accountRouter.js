@@ -17,6 +17,18 @@ router.get("/", (req,res) => {
     });
 });
 
+router.get("/:id", validateAccountId, (req,res) => {
+    const { id } = req.params;
+    Account.getById(id)
+    .then(account => {
+        res.status(200).json(account);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: "Could not retrieve account in db with that id."})
+    });
+})
+
 //middleware
 function validateAccountId(req, res, next) {
     // do your magic!
