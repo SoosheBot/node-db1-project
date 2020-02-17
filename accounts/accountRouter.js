@@ -63,6 +63,17 @@ router.put("/:id", validateAccountId, validateAccount, (req,res) => {
       });
 });
 
+router.delete("/:id", validateAccountId, (req,res) => {
+    const { id } = req.account;
+    Account.remove(id)
+    .then(account => {
+        res.status(201).json(account);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Could not remove account at this ID" });
+      });
+});
+
 //middleware
 function validateAccountId(req, res, next) {
   // do your magic!
