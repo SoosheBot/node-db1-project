@@ -26,3 +26,15 @@ function insert(account) {
     });
 }
 
+function update(id, changes) {
+    return("accounts")
+    .where({ id })
+    .update(changes);
+};
+
+function remove(id) {
+    return("accounts")
+    .where('id', id)
+    .del();
+}
+
