@@ -27,13 +27,13 @@ function insert(account) {
 }
 
 function update(id, changes) {
-    return("accounts")
+    return db("accounts")
     .where({ id })
     .update(changes);
 };
 
 function remove(id) {
-    return("accounts")
+    return db("accounts")
     .where('id', id)
     .del();
 }

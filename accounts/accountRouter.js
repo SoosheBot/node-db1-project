@@ -51,10 +51,23 @@ router.post("/", validateAccount, (req,res) => {
       });
 });
 
+router.put("/:id", validateAccountId, validateAccount, (req,res) => {
+    const accounts = { ...req.body };
+    const { id } = req.params;
+    Account.update(id, accounts)
+      .then(account => {
+        res.status(201).json(account);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Could not update account at this ID" });
+      });
+});
+
 //middleware
 function validateAccountId(req, res, next) {
   // do your magic!
-  Account.getById(req.params.id).then(account => {
+  Account.getById(req.params.id)
+  .then(account => {
     if (account) {
       req.account = account;
       next();
@@ -67,6 +80,8 @@ function validateAccountId(req, res, next) {
 function validateAccount(req,res,next) {
     if (req.body.name && req.body.budget) {
         next();
+    } else if (!req.body.name) {
+        res.status(400).json({ error: "Please add name"});
     } else {
         res.status(400).json({ error: "Please add name and budget"});
     }
